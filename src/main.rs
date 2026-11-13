@@ -10,12 +10,17 @@ fn main() {
     println!("e^x           = {}", compl3x_math::f64::exp(x));
     println!("Rust e^x      = {}\n", x.exp());
 
-    let y: f64 = f64::consts::PI;
+    let y: f64 = 0.8;
     println!("y             = {}", y);
     println!("ln(y)         = {}", compl3x_math::f64::ln(y));
-    println!("Rust ln(y)    = {}", y.ln());
+    println!("Rust ln(y)    = {}\n", y.ln());
     println!("x^y           = {}", compl3x_math::f64::powf(x, y));
     println!("Rust x^y      = {}", x.powf(y));
     println!("logx(y)       = {}", compl3x_math::f64::log(x, y));
-    println!("Rust logx(y)  = {}", x.log(y))
+    println!("Rust logx(y)  = {}", x.log(y));
+
+    let z = 2.0;
+    println!("z             = {}", z);
+    println!("sqrt(z)       = {}", compl3x_math::f64::root(2.0, z));
+    println!("Rust sqrt(z)  = {}", z.sqrt());
 }

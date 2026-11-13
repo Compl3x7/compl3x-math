@@ -88,12 +88,14 @@ pub mod f64 {
     }
 
     pub fn powf(x: f64, y: f64) -> f64 {
-        let floor_y = floor(y);
-        let diff = y - floor_y;
-        powi(x, floor_y as i64) * exp(diff * ln(x))
+        exp(y * ln(x))
     }
 
-    pub fn log(x: f64, y: f64) -> f64 {
-        ln(x) / ln(y)
+    pub fn log(base: f64, x: f64) -> f64 {
+        ln(base) / ln(x)
+    }
+
+    pub fn root(base: f64, x: f64) -> f64 {
+        powf(x, 1.0 / base)
     }
 }
