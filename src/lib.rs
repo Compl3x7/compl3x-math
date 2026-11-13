@@ -33,7 +33,8 @@ pub mod f64 {
             1.0 / exp(-x)
         } else {
             let floor_x = floor(x);
-            pow_whole(f64::consts::E, floor_x as i64) * exp_taylor(x - floor_x, EXP_TAYLOR_SERIES_LEN)
+            pow_whole(f64::consts::E, floor_x as i64)
+                * exp_taylor(x - floor_x, EXP_TAYLOR_SERIES_LEN)
         }
     }
 
@@ -84,7 +85,7 @@ pub mod f64 {
             result += exp / i as f64;
             exp *= x;
         }
-        -1.0 * result
+        -result
     }
 
     pub fn pow(x: f64, y: f64) -> f64 {
