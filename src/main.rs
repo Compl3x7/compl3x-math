@@ -14,7 +14,7 @@ fn main() {
     println!("y             = {}", y);
     println!("ln(y)         = {}", compl3x_math::f64::ln(y));
     println!("Rust ln(y)    = {}", y.ln());
-    println!("x^y           = {}", compl3x_math::f64::pow(x, y));
+    println!("x^y           = {}", compl3x_math::f64::powf(x, y));
     println!("Rust x^y      = {}", x.powf(y));
     println!("logx(y)       = {}", compl3x_math::f64::log(x, y));
     println!("Rust logx(y)  = {}", x.log(y))
