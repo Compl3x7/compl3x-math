@@ -31,14 +31,14 @@ pub mod f64 {
         if diff < 0.5 { floor_x } else { ceil(x) }
     }
 
-    const EXP_TAYLOR_SERIES_NTH: u32 = 20;
+    const EXP_TAYLOR_SERIES_LEN: u32 = 20;
 
     pub fn exp(x: f64) -> f64 {
         if x < 0.0 {
             1.0 / exp(-x)
         } else {
             let floor_x = floor(x);
-            powi(f64::consts::E, floor_x as i64) * exp_taylor(x - floor_x, EXP_TAYLOR_SERIES_NTH)
+            powi(f64::consts::E, floor_x as i64) * exp_taylor(x - floor_x, EXP_TAYLOR_SERIES_LEN)
         }
     }
 
@@ -53,21 +53,21 @@ pub mod f64 {
         }
     }
 
-    fn exp_taylor(x: f64, nth: u32) -> f64 {
-        assert!(x >= 0.0 && x < 1.0);
+    fn exp_taylor(x: f64, series_len: u32) -> f64 {
+        assert!((0.0..1.0).contains(&x));
 
         let mut result = 0.0;
         let mut term = 1.0;
-        for i in 0..=nth {
+        for i in 0..series_len {
             result += term;
             term *= x / (i + 1) as f64;
         }
         result
     }
 
-    const REMAINDER_ABS: f64 = 0.1;
+    const REMAINDER_ABS: f64 = 10e-3;
     const NEWTON_ITER_MAX: i32 = 100;
-    const LN_TAYLOR_SERIES_NTH: u32 = 20;
+    const LN_TAYLOR_SERIES_LEN: u32 = 20;
 
     pub fn ln(x: f64) -> f64 {
         assert!(x > 0.0);
@@ -76,21 +76,23 @@ pub mod f64 {
         let mut remainder = 1.0 - x / exp(guess);
 
         let mut iter = 0;
-        while abs(remainder) >= 0.1 {
-            if iter > NEWTON_ITER_MAX { break; }
+        while abs(remainder) >= REMAINDER_ABS {
+            if iter > NEWTON_ITER_MAX {
+                break;
+            }
             guess -= exp(guess) / x - 1.0;
             remainder = 1.0 - x / exp(guess);
             iter += 1;
         }
 
-        guess + ln_taylor(remainder, LN_TAYLOR_SERIES_NTH)
+        guess + ln_taylor(remainder, LN_TAYLOR_SERIES_LEN)
     }
 
     fn ln_approx(x: f64) -> f64 {
         let mut x = x;
         let mut approx = 0.0;
 
-        while x > 1.0 {
+        while x > f64::consts::E {
             x /= f64::consts::E;
             approx += 1.0;
         }
@@ -99,7 +101,7 @@ pub mod f64 {
     }
 
     fn ln_taylor(x: f64, series_len: u32) -> f64 {
-        assert!(x >= -REMAINDER_ABS && x <= REMAINDER_ABS);
+        assert!((-REMAINDER_ABS..REMAINDER_ABS).contains(&x));
 
         let mut result = 0.0;
         let mut pow = x;

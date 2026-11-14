@@ -10,7 +10,7 @@ fn main() {
     println!("e^x           = {}", compl3x_math::f64::exp(x));
     println!("Rust e^x      = {}\n", x.exp());
 
-    let y: f64 = 0.8;
+    let y: f64 = f64::consts::PI;
     println!("y             = {}", y);
     println!("ln(y)         = {}", compl3x_math::f64::ln(y));
     println!("Rust ln(y)    = {}\n", y.ln());
