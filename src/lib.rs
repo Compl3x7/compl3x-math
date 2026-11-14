@@ -1,5 +1,6 @@
 pub mod f64 {
     use core::f64;
+    use std::cmp::Ordering;
 
     pub fn abs(x: f64) -> f64 {
         if x < 0.0 { -x } else { x }
@@ -42,9 +43,10 @@ pub mod f64 {
     }
 
     pub fn powi(x: f64, n: i64) -> f64 {
-        match n {
-            0 => 1.0,
-            _ => {
+        match n.cmp(&0) {
+            Ordering::Equal => 1.0,
+            Ordering::Less => 1.0 / powi(x, -n),
+            Ordering::Greater => {
                 let result = powi(x * x, n / 2);
                 if n % 2 == 0 { result } else { result * x }
             }
@@ -52,32 +54,53 @@ pub mod f64 {
     }
 
     fn exp_taylor(x: f64, nth: u32) -> f64 {
+        assert!(x >= 0.0 && x < 1.0);
+
         let mut result = 0.0;
-        let mut pow = 1.0;
-        let mut fact = 1.0;
+        let mut term = 1.0;
         for i in 0..=nth {
-            result += pow / fact;
-            pow *= x;
-            fact *= (i + 1) as f64
+            result += term;
+            term *= x / (i + 1) as f64;
         }
         result
     }
 
+    const REMAINDER_ABS: f64 = 0.1;
+    const NEWTON_ITER_MAX: i32 = 100;
     const LN_TAYLOR_SERIES_NTH: u32 = 20;
 
     pub fn ln(x: f64) -> f64 {
-        let mut guess = 0.0;
-        let mut y = 1.0 - x;
+        assert!(x > 0.0);
 
-        while abs(y) >= 0.1 {
+        let mut guess = ln_approx(x);
+        let mut remainder = 1.0 - x / exp(guess);
+
+        let mut iter = 0;
+        while abs(remainder) >= 0.1 {
+            if iter > NEWTON_ITER_MAX { break; }
             guess -= exp(guess) / x - 1.0;
-            y = 1.0 - x / exp(guess);
+            remainder = 1.0 - x / exp(guess);
+            iter += 1;
         }
 
-        guess + ln_taylor(y, LN_TAYLOR_SERIES_NTH)
+        guess + ln_taylor(remainder, LN_TAYLOR_SERIES_NTH)
+    }
+
+    fn ln_approx(x: f64) -> f64 {
+        let mut x = x;
+        let mut approx = 0.0;
+
+        while x > 1.0 {
+            x /= f64::consts::E;
+            approx += 1.0;
+        }
+
+        approx
     }
 
     fn ln_taylor(x: f64, series_len: u32) -> f64 {
+        assert!(x >= -REMAINDER_ABS && x <= REMAINDER_ABS);
+
         let mut result = 0.0;
         let mut pow = x;
         for i in 1..=series_len {
@@ -88,14 +111,20 @@ pub mod f64 {
     }
 
     pub fn powf(x: f64, y: f64) -> f64 {
+        assert!(x > 0.0);
+
         exp(y * ln(x))
     }
 
     pub fn log(base: f64, x: f64) -> f64 {
+        assert!(x > 0.0 && base > 0.0);
+
         ln(base) / ln(x)
     }
 
     pub fn root(base: f64, x: f64) -> f64 {
-        powf(x, 1.0 / base)
+        assert!(base != 0.0 && x >= 0.0);
+
+        if x == 0.0 { 0.0 } else { powf(x, 1.0 / base) }
     }
 }
