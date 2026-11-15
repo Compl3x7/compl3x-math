@@ -131,7 +131,7 @@ pub mod f64 {
     }
 
     const TWO_PI: f64 = 2.0 * f64::consts::PI;
-    const SIN_TAYLOR_SERIES_LEN: u32 = 12;
+    const SIN_TAYLOR_SERIES_LEN: u32 = 10;
 
     pub fn sin(x: f64) -> f64 {
         if abs(x) > f64::consts::PI {
@@ -154,6 +154,35 @@ pub mod f64 {
             let next_i = i as f64 + 1.0;
             let num = -(x * x);
             let den = 2.0 * (2.0 * next_i * next_i + next_i);
+            term *= num / den;
+        }
+        result
+    }
+
+    const COS_TAYLOR_SERIES_LEN: u32 = SIN_TAYLOR_SERIES_LEN;
+
+    pub fn cos(x: f64) -> f64 {
+        if abs(x) > f64::consts::PI {
+            let k = round(x / TWO_PI);
+            cos(x - k * (TWO_PI))
+        }
+        else {
+            cos_taylor(x, COS_TAYLOR_SERIES_LEN)
+        }
+    }
+
+
+    fn cos_taylor(x: f64, series_len: u32) -> f64 {
+        assert!(abs(x) <= f64::consts::PI);
+
+        let mut result = 0.0;
+        let mut term = 1.0;
+
+        for i in 0..series_len {
+            result += term;
+            let next_i = i as f64 + 1.0;
+            let num = -(x * x);
+            let den = 2.0 * (2.0 * next_i * next_i - next_i);
             term *= num / den;
         }
         result
