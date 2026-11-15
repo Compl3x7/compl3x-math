@@ -1,7 +1,7 @@
 use core::f64;
 
 fn main() {
-    let x: f64 = f64::consts::E;
+    let x = f64::consts::E;
     println!("x             = {}", x);
     println!("|x|           = {}", compl3x_math::f64::abs(x));
     println!("floor(x)      = {}", compl3x_math::f64::floor(x));
@@ -10,17 +10,23 @@ fn main() {
     println!("e^x           = {}", compl3x_math::f64::exp(x));
     println!("Rust e^x      = {}\n", x.exp());
 
-    let y: f64 = f64::consts::PI;
-    println!("y             = {}", y);
-    println!("ln(y)         = {}", compl3x_math::f64::ln(y));
-    println!("Rust ln(y)    = {}\n", y.ln());
+    let x = f64::consts::PI;
+    println!("x             = {}", x);
+    println!("ln(x)         = {}", compl3x_math::f64::ln(x));
+    println!("Rust ln(x)    = {}", x.ln());
+    println!("sqrt(x)       = {}", compl3x_math::f64::root(2.0, x));
+    println!("Rust sqrt(x)  = {}\n", x.sqrt());
+
+    let y = f64::consts::E;
+    println!("x             = {}", x);
+    println!("y             = {}", y);    
     println!("x^y           = {}", compl3x_math::f64::powf(x, y));
     println!("Rust x^y      = {}", x.powf(y));
     println!("logx(y)       = {}", compl3x_math::f64::log(x, y));
-    println!("Rust logx(y)  = {}", x.log(y));
+    println!("Rust logx(y)  = {}\n", x.log(y));
 
-    let z = 2.0;
-    println!("z             = {}", z);
-    println!("sqrt(z)       = {}", compl3x_math::f64::root(2.0, z));
-    println!("Rust sqrt(z)  = {}", z.sqrt());
+    let x = 0.3 + 2.0 * f64::consts::PI;
+    println!("x             = {}", x);
+    println!("sin(x)        = {}", compl3x_math::f64::sin(x));
+    println!("Rust sin(x)   = {}\n", x.sin());
 }

@@ -101,7 +101,7 @@ pub mod f64 {
     }
 
     fn ln_taylor(x: f64, series_len: u32) -> f64 {
-        assert!((-REMAINDER_ABS..REMAINDER_ABS).contains(&x));
+        assert!(abs(x) <= REMAINDER_ABS);
 
         let mut result = 0.0;
         let mut pow = x;
@@ -128,5 +128,34 @@ pub mod f64 {
         assert!(base != 0.0 && x >= 0.0);
 
         if x == 0.0 { 0.0 } else { powf(x, 1.0 / base) }
+    }
+
+    const TWO_PI: f64 = 2.0 * f64::consts::PI;
+    const SIN_TAYLOR_SERIES_LEN: u32 = 12;
+
+    pub fn sin(x: f64) -> f64 {
+        if abs(x) > f64::consts::PI {
+            let k = round(x / TWO_PI);
+            sin(x - k * (TWO_PI))
+        }
+        else {
+            sin_taylor(x, SIN_TAYLOR_SERIES_LEN)
+        }
+    }
+
+    fn sin_taylor(x: f64, series_len: u32) -> f64 {
+        assert!(abs(x) <= f64::consts::PI);
+
+        let mut result = 0.0;
+        let mut term = x;
+
+        for i in 0..series_len {
+            result += term;
+            let next_i = i as f64 + 1.0;
+            let num = -(x * x);
+            let den = 2.0 * (2.0 * next_i * next_i + next_i);
+            term *= num / den;
+        }
+        result
     }
 }
