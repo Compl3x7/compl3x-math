@@ -33,7 +33,7 @@ Currently it supports the following functions for the `f64` data type:
 - Exponents, $f(x, y) = x^y$, `powf(x, y)`
 - Logarithms of a given base `base`, $f(b, x) = log_{b}(x)$, `log(base, x)`
 - Roots of a given base `base`, $f(b, x) = \sqrt[b]{a}$, `root(base, x)`
-- The trignometric trio: $sin(x),\ cos(x),\ tan(x)$, `sin(x)`, `cos(x)`, `tan(x)`
+- The trignometric trio: $\sin(x),\ \cos(x),\ \tan(x)$, `sin(x)`, `cos(x)`, `tan(x)`
 
 ##
 
