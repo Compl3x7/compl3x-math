@@ -35,6 +35,10 @@ Currently it supports the following functions for the `f64` data type:
 - Roots of a given base `base`, $f(b, x) = \sqrt[b]{a}$, `root(base, x)`
 - The trignometric trio: $\sin(x),\ \cos(x),\ \tan(x)$, `sin(x)`, `cos(x)`, `tan(x)`
 
+## AI Usage
+
+In a personal effort to reduce my AI usage, AI tools were strictly forbbiden to be used in this project.
+
 ##
 
 Still here :3
