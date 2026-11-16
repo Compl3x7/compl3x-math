@@ -179,4 +179,11 @@ pub mod f64 {
         }
         result
     }
+
+    pub fn tan(x: f64) -> f64 {
+        let k = round(x / f64::consts::PI);
+        assert!(abs(x - k * f64::consts::PI) < f64::consts::FRAC_PI_2);
+        
+        sin(x) / cos(x)
+    }
 }

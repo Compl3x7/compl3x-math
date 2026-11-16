@@ -31,4 +31,6 @@ fn main() {
     println!("Rust sin(x)   = {}", x.sin());
     println!("cos(x)        = {}", compl3x_math::f64::cos(x));
     println!("Rust cos(x)   = {}", x.cos());
+    println!("tan(x)        = {}", compl3x_math::f64::tan(x));
+    println!("Rust tan(x)   = {}", x.tan());
 }
