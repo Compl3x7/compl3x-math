@@ -37,7 +37,7 @@ Currently it supports the following functions for the `f64` data type:
 
 ## AI Usage
 
-In a personal effort to reduce my AI usage, the use of AI tools were and are strictly forbbiden in this project.
+In a personal effort to reduce my AI usage, the use of AI tools were, and are, strictly forbidden in this project.
 
 ##
 
