@@ -19,7 +19,7 @@ fn main() {
 
     let y = f64::consts::E;
     println!("x             = {}", x);
-    println!("y             = {}", y);    
+    println!("y             = {}", y);
     println!("x^y           = {}", compl3x_math::f64::powf(x, y));
     println!("Rust x^y      = {}", x.powf(y));
     println!("logx(y)       = {}", compl3x_math::f64::log(x, y));

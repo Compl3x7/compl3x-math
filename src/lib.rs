@@ -135,7 +135,7 @@ pub mod f64 {
 
     enum Wave {
         Sin,
-        Cos
+        Cos,
     }
 
     pub fn sin(x: f64) -> f64 {
@@ -150,8 +150,7 @@ pub mod f64 {
         if abs(x) > f64::consts::PI {
             let k = round(x / TWO_PI);
             trig_wave(x - k * (TWO_PI), wave)
-        }
-        else {
+        } else {
             trig_taylor(x, TRIG_TAYLOR_SERIES_LEN, wave)
         }
     }
@@ -162,12 +161,12 @@ pub mod f64 {
         let mut result = 0.0;
         let mut term = match wave {
             Wave::Sin => x,
-            Wave::Cos => 1.0
+            Wave::Cos => 1.0,
         };
 
         let sign = match wave {
             Wave::Sin => 1.0,
-            Wave::Cos => -1.0
+            Wave::Cos => -1.0,
         };
 
         for i in 0..series_len {
@@ -183,7 +182,7 @@ pub mod f64 {
     pub fn tan(x: f64) -> f64 {
         let k = round(x / f64::consts::PI);
         assert!(abs(x - k * f64::consts::PI) < f64::consts::FRAC_PI_2);
-        
+
         sin(x) / cos(x)
     }
 }
