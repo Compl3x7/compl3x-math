@@ -27,10 +27,18 @@ fn main() {
 
     let x = 0.3 + 2.0 * f64::consts::PI;
     println!("x             = {}", x);
-    println!("sin(x)        = {}", compl3x_math::f64::sin(x));
     println!("Rust sin(x)   = {}", x.sin());
     println!("cos(x)        = {}", compl3x_math::f64::cos(x));
     println!("Rust cos(x)   = {}", x.cos());
     println!("tan(x)        = {}", compl3x_math::f64::tan(x));
-    println!("Rust tan(x)   = {}", x.tan());
+    println!("Rust tan(x)   = {}\n", x.tan());
+
+    let x = 0.5;
+    println!("x                 = {}", x);
+    println!("arcsin(x)         = {}", compl3x_math::f64::arcsin(x));
+    println!("Rust arcsin(x)    = {}", x.asin());
+    println!("arccos(x)         = {}", compl3x_math::f64::arccos(x));
+    println!("Rust arccos(x)    = {}", x.acos());
+    println!("arctan(x)         = {}", compl3x_math::f64::arctan(x));
+    println!("Rust arctan(x)    = {}", x.atan()); 
 }

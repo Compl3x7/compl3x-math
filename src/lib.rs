@@ -2,6 +2,17 @@ pub mod f64 {
     use core::f64;
     use std::cmp::Ordering;
 
+    const TWO_PI: f64 = 2.0 * f64::consts::PI;
+
+    const EXP_TAYLOR_SERIES_LEN: u32 = 20;
+    const LN_TAYLOR_SERIES_LEN: u32 = 20;
+    const TRIG_TAYLOR_SERIES_LEN: u32 = 10;
+
+    const NEWTON_ITER_MAX: i32 = 100;
+
+    const REMAINDER_EPSILON: f64 = 1e-3; // For ln(x) calculation
+    const EPSILON: f64 = 1e-20;
+
     pub fn abs(x: f64) -> f64 {
         if x < 0.0 { -x } else { x }
     }
@@ -30,8 +41,6 @@ pub mod f64 {
         let diff = x - floor_x;
         if diff < 0.5 { floor_x } else { ceil(x) }
     }
-
-    const EXP_TAYLOR_SERIES_LEN: u32 = 20;
 
     pub fn exp(x: f64) -> f64 {
         if x < 0.0 {
@@ -65,10 +74,6 @@ pub mod f64 {
         result
     }
 
-    const REMAINDER_ABS: f64 = 10e-3;
-    const NEWTON_ITER_MAX: i32 = 100;
-    const LN_TAYLOR_SERIES_LEN: u32 = 20;
-
     pub fn ln(x: f64) -> f64 {
         assert!(x > 0.0);
 
@@ -76,7 +81,7 @@ pub mod f64 {
         let mut remainder = 1.0 - x / exp(guess);
 
         let mut iter = 0;
-        while abs(remainder) >= REMAINDER_ABS {
+        while abs(remainder) >= REMAINDER_EPSILON {
             if iter > NEWTON_ITER_MAX {
                 break;
             }
@@ -89,6 +94,8 @@ pub mod f64 {
     }
 
     fn ln_approx(x: f64) -> f64 {
+        assert!(x > 0.0);
+
         let mut x = x;
         let mut approx = 0.0;
 
@@ -101,7 +108,7 @@ pub mod f64 {
     }
 
     fn ln_taylor(x: f64, series_len: u32) -> f64 {
-        assert!(abs(x) <= REMAINDER_ABS);
+        assert!(abs(x) <= REMAINDER_EPSILON);
 
         let mut result = 0.0;
         let mut pow = x;
@@ -129,9 +136,6 @@ pub mod f64 {
 
         if x == 0.0 { 0.0 } else { powf(x, 1.0 / base) }
     }
-
-    const TWO_PI: f64 = 2.0 * f64::consts::PI;
-    const TRIG_TAYLOR_SERIES_LEN: u32 = 10;
 
     enum Wave {
         Sin,
@@ -184,5 +188,41 @@ pub mod f64 {
         assert!(abs(x - k * f64::consts::PI) < f64::consts::FRAC_PI_2);
 
         sin(x) / cos(x)
+    }
+
+    pub fn arcsin(x: f64) -> f64 {
+        assert!(abs(x) <= 1.0);
+    
+        let mut guess = 0.0;
+        let mut iter = 0;
+        while abs(sin(guess) - x) >= EPSILON {
+            if iter > NEWTON_ITER_MAX {
+                break;
+            }
+            guess -= (sin(guess) - x) / cos(guess);
+            iter += 1;
+        }
+
+        guess
+    }
+
+    pub fn arccos(x: f64) -> f64 {
+        assert!(abs(x) <= 1.0);
+    
+        f64::consts::FRAC_PI_2 - arcsin(x)
+    }
+
+    pub fn arctan(x: f64) -> f64 {
+        let mut guess = 0.0;
+        let mut iter = 0;
+        while abs(tan(guess) - x) >= EPSILON {
+            if iter > NEWTON_ITER_MAX {
+                break;
+            }
+            guess -= (tan(guess) - x) * powf(cos(guess), 2.0);
+            iter += 1;
+        }
+
+        guess
     }
 }
